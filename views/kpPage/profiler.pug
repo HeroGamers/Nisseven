@@ -1,0 +1,35 @@
+nav
+	include ./showUsersFromCollection.pug
+	#nav-tab.nav.nav-tabs(role="tablist")
+		a#nav-inActiveProfiles-tab.nav-link.active(data-toggle="tab" href="#nav-allProfiles" role="tab" aria-controls="nav-allProfiles" aria-selected="false") Alle Profiler
+		a#nav-activeProfiles-tab.nav-link(data-toggle="tab" href="#nav-activeProfiles" role="tab" aria-controls="nav-activeProfiles" aria-selected="true") Tilmeldte Profiler
+		a#nav-inActiveProfiles-tab.nav-link(data-toggle="tab" href="#nav-inActiveProfiles" role="tab" aria-controls="nav-inActiveProfiles" aria-selected="false") Inaktive Profiler
+		a#nav-inActiveProfiles-tab.nav-link(data-toggle="tab" href="#nav-addProfile" role="tab" aria-controls="nav-addProfile" aria-selected="false") Tilføj Profil
+
+#nav-tabContent.tab-content
+	#nav-allProfiles.tab-pane.fade.show.active(role="tabpanel" aria-labelledby="nav-allProfiles-tab")
+		.mt-3
+			+showUsersFromCollection()
+
+	#nav-activeProfiles.tab-pane.fade(role="tabpanel" aria-labelledby="nav-activeProfiles-tab")
+		.mt-3
+			+showUsersFromCollection(true)
+
+	#nav-inActiveProfiles.tab-pane.fade(role="tabpanel" aria-labelledby="nav-inActiveProfiles-tab")
+		.mt-3
+			+showUsersFromCollection(false)
+			
+	#nav-addProfile.tab-pane.fade(role="tabpanel" aria-labelledby="nav-addProfile-tab")
+		.mt-3s
+			div(id='loginForm' class='bg-light mt-3 p-4 w-100')
+				label.form-label(for='validationCustom01') Unilogin
+				input#validationCustom01.form-control(type='username' placeholder='mark351s' required='')
+
+				label.form-label(for='validationCustom01') Fulde navn
+				input#validationCustom01.form-control(type='fullname' placeholder='Lars Larsen' required='')
+
+				br
+
+				button(class="btn btn-primary" type="submit")
+					span(class="spinner-border spinner-border-sm" role="status" aria-hidden="true" hidden)
+					span  Opret Bruger

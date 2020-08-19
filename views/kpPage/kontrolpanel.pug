@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+html(lang='dk')
+	head
+		include ../partials/headers.pug
+		link(rel='stylesheet', href='/css/kontrolpanel.css')
+		title Nisseven - Kontrolpanel
+
+	body
+		script(src='/js/kpBtns.js')
+		script(src='/js/kp/specialFormValidation.js')
+		include ../partials/navbar.pug
+
+
+		#settings.container.mt-5
+			h1 Kontrolpanel
+			.row
+				.col-3
+					#v-pills-tab.nav.flex-column.nav-pills(role="tablist" aria-orientation="vertical")
+						a#v-pills-profile-tab.nav-link.active(data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false") Profiler
+						a#v-pills-messages-tab.nav-link(data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false") Generator
+						a#v-pills-settings-tab.nav-link(data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false") Andet
+				.col-9
+					#v-pills-tabContent.tab-content
+						#v-pills-profile.tab-pane.fade.show.active(role="tabpanel" aria-labelledby="v-pills-profile-tab") 
+							include ./profiler.pug
+						#v-pills-messages.tab-pane.fade(role="tabpanel" aria-labelledby="v-pills-messages-tab") ...
+						#v-pills-settings.tab-pane.fade(role="tabpanel" aria-labelledby="v-pills-settings-tab") ...

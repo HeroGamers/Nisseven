@@ -1,0 +1,55 @@
+$mobile-width: 300px
+
+#window
+	display: flex
+	margin-left: 50px
+	width: $mobile-width
+	flex-wrap: wrap
+
+
+#helpBox
+	visibility: visible
+	width: $mobile-width
+	height: 570px
+	overflow: scroll
+	margin-bottom: 50px
+
+	border-radius: 0.35rem
+
+	#good
+		color: $green-300
+	
+	#alert
+		color: $red-300
+
+	#notice
+		font-size: 18px
+		color: $blue-500
+
+	a
+		color: $blue-400
+		text-decoration: none
+
+
+#loginForm
+	width: $mobile-width
+	height: 280px
+	border-radius: 0.35rem
+	border-style: solid
+	border-width: 1px
+	border-color: #C3C3C3
+
+	input
+		margin-bottom: 1rem
+
+	button
+		width: 100%
+
+
+@media (min-width: 768px)
+	#window
+		width: 500px
+		flex-wrap: initial
+	#helpBox
+		width: 200px
+		height: 280px
