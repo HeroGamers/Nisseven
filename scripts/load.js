@@ -13,7 +13,7 @@ const defaultSettings = {
     clearOnRun: true,
     msgOnServerStart: false, // du kan eventuelt skrive beskeden her :)
     databases: ['users'],
-    superAdmins: ['rasmus']
+    superAdmins: ['rasmus', 'marcus']
 }
 
 

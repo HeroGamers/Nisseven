@@ -5,11 +5,8 @@ require('./scripts/startServer')
 require('./scripts/database')
 
 
-
 const w = global.app
 
-
-global.users.updateOne('rasmus', {  })
 
 w.get('/col', (req, res) => {
 	const { readFileSync } = require('fs')
