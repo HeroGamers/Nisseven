@@ -80,7 +80,7 @@ let messages = [
 ]
 
 let number = Math.floor(Math.random() * messages.length)
-console.log('\x1b[33m%s\x1b[0m', messages[number]+'\nKoden ligger på: https://github.com/rfoldbirk/projekt-nisseven')
+console.log('\x1b[33m%s\x1b[0m', messages[number]+'\nKoden ligger på: https://github.com/herogamers/nisseven')
 
 
 
