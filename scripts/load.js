@@ -86,7 +86,27 @@ if (global.compileSassOnRun) {
 }
 
 
+global.verify = (str, hashObj) => {
+    let newHash = crypto.pbkdf2Sync(str, hashObj.salt, hashObj.iterations, hashObj.keylen, hashObj.digest).toString('base64')
+    return hashObj.hash == newHash
+}
 
+
+global.hash = (str) => {
+    const salt = String(  crypto.randomBytes(128).toString('base64') )
+    const iterations = 10000
+    const keylen = 256
+    const digest = 'sha512'
+
+    return {
+        salt: salt,
+        iterations: iterations,
+        keylen: keylen,
+        digest: digest,
+
+        hash: crypto.pbkdf2Sync(str, salt, iterations, keylen, digest).toString('base64')
+    }
+}
 
 global.randomStr = (length) => {
     var result           = ''
