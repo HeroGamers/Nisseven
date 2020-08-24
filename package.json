@@ -1,7 +1,7 @@
 {
   "name": "nisseven",
   "version": "1.0.0",
-  "description": "En nisseven generator, men den virker :)",
+  "description": "En nisseven generator!",
   "main": "main.js",
   "scripts": {
     "start": "node main.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rfoldbirk/projekt-nisseven.git"
+    "url": "git+https://github.com/HeroGamers/Nisseven.git"
   },
-  "author": "Rasmus Foldberg Birkebæk",
-  "license": "ISC",
+  "author": "Rasmus Foldberg / Marcus Sand",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rfoldbirk/projekt-nisseven/issues"
+    "url": "https://github.com/HeroGamers/Nisseven/issues"
   },
-  "homepage": "https://github.com/rfoldbirk/projekt-nisseven#readme",
+  "homepage": "https://github.com/HeroGamers/Nisseven#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "bootstrap": "^5.0.0-alpha1",
@@ -24,6 +24,7 @@
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "helmet": "^3.23.3",
+    "nodemon": "^2.0.4",
     "pug": "^3.0.0"
   }
 }
