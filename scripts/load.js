@@ -86,26 +86,21 @@ if (global.compileSassOnRun) {
     })
 }
 
+// default indstillinger, det burde være fint :)))
+const iterations = 10000
+const keylen = 256
+const digest = 'sha512'
 
-global.verify = (str, hashObj) => {
-    let newHash = crypto.pbkdf2Sync(str, global.salt, hashObj.iterations, hashObj.keylen, hashObj.digest).toString('base64')
-    return hashObj.hash == newHash
+global.verify = (str, hash) => {
+    let newHash = crypto.pbkdf2Sync(str, global.salt, iterations, keylen, digest).toString('base64')
+    return hash == newHash
 }
 
 
 global.hash = (str) => {
     const salt = global.salt
-    const iterations = 10000
-    const keylen = 256
-    const digest = 'sha512'
-
-    return {
-        iterations: iterations,
-        keylen: keylen,
-        digest: digest,
-
-        hash: crypto.pbkdf2Sync(str, salt, iterations, keylen, digest).toString('base64')
-    }
+    
+    return crypto.pbkdf2Sync(str, salt, iterations, keylen, digest).toString('base64')
 }
 
 global.randomStr = (length) => {
