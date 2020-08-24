@@ -1,5 +1,5 @@
 const { readFileSync, writeFileSync, unlinkSync, mkdirSync, existsSync } = require('fs')
-
+const crypto = require('crypto')
 
 // disse indstillinger bør ikke ændres på...
 // btw selve settings.json er meget streng! Ryk rundt på det mindste og den nulstiller automatisk
@@ -13,7 +13,8 @@ const defaultSettings = {
     clearOnRun: true,
     msgOnServerStart: false, // du kan eventuelt skrive beskeden her :)
     databases: ['users'],
-    superAdmins: ['rasmus', 'marcus']
+    superAdmins: ['rasmus', 'marcus'],
+    salt: String(crypto.randomBytes(128).toString('base64'))
 }
 
 
@@ -27,7 +28,7 @@ for (let key in defaultSettings) {
 
 const settingsPath = './config/settings.json'
 
-let crypto = require('crypto')
+
 
 
 const folders = ['config', 'config/collections']
@@ -87,19 +88,18 @@ if (global.compileSassOnRun) {
 
 
 global.verify = (str, hashObj) => {
-    let newHash = crypto.pbkdf2Sync(str, hashObj.salt, hashObj.iterations, hashObj.keylen, hashObj.digest).toString('base64')
+    let newHash = crypto.pbkdf2Sync(str, global.salt, hashObj.iterations, hashObj.keylen, hashObj.digest).toString('base64')
     return hashObj.hash == newHash
 }
 
 
 global.hash = (str) => {
-    const salt = String(  crypto.randomBytes(128).toString('base64') )
+    const salt = global.salt
     const iterations = 10000
     const keylen = 256
     const digest = 'sha512'
 
     return {
-        salt: salt,
         iterations: iterations,
         keylen: keylen,
         digest: digest,
@@ -125,7 +125,7 @@ global.genCookie = (hours) => {
 
     hours = hours || 1
 
-    // cookieen udløber efter 1 timer
+    // cookieen udløber efter x timer
     let expireTime = hours*60*60*1000 + Date.now()
 
     let cookieToStore = {
