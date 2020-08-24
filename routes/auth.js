@@ -27,8 +27,8 @@ router.post('/login', (req, res) => {
 						let nisseven = users[i]
 
 						global.users.updateOne(nisseven.id, {distributed: true})
-						let hashednisseven = nisseven
-						global.users.updateOne(user.id, {nisseven: hashednisseven})
+						let encryptednisseven = gloal.encryptstr(nisseven.id, req.body.password)
+						global.users.updateOne(user.id, {nisseven: encryptednisseven})
 					}
 				}
 			}

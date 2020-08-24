@@ -1,6 +1,9 @@
 # Macososososos
 .DS_Store
 
+#IDEA
+.idea
+
 config
 package-lock.json
 

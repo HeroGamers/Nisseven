@@ -14,6 +14,7 @@ const defaultSettings = {
     msgOnServerStart: false, // du kan eventuelt skrive beskeden her :)
     databases: ['users'],
     superAdmins: ['rasmus', 'marcus'],
+    iv: crypto.randomBytes(16),
     salt: String(crypto.randomBytes(128).toString('base64'))
 }
 
@@ -96,11 +97,19 @@ global.verify = (str, hash) => {
     return hash == newHash
 }
 
-global.encrypt = (str, key) => {
-    let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
-    let encrypted = cipher.update(text);
+global.encryptstr = (str, key) => {
+    let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), global.iv);
+    let encrypted = cipher.update(str);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
-    return { iv: iv.toString('hex'), encryptedData: encrypted.toString('hex') }
+    return encrypted.toString('hex')
+}
+
+global.decryptstr = (str, key) => {
+    let encryptedText = Buffer.from(str, 'hex');
+    let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), global.iv);
+    let decrypted = decipher.update(encryptedText);
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
+    return decrypted.toString();
 }
 
 
