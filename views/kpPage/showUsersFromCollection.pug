@@ -14,7 +14,7 @@ mixin showUsersFromCollection(opt_active)
 
 						- if (!USER.hasOwnProperty('privileges') || !USER.privileges.includes('admin')) {
 							button.btn.btn-danger.btn-sm.float-right.mr-1(type='button' onclick='adminCommands("/api/makeAdmin", "'+USER.id+'")') Gør til admin
-						- } else if (USER.id != 'rasmus') {
+						- } else if (USER.id != 'rasmus' && USER.id != 'marcus') {
 							button.btn.btn-success.btn-sm.float-right.mr-1(type='button' onclick='adminCommands("/api/removeAdmin", "'+USER.id+'")') Fjern admin
 						- }
 

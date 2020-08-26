@@ -13,8 +13,9 @@ const defaultSettings = {
     clearOnRun: true,
     msgOnServerStart: false, // du kan eventuelt skrive beskeden her :)
     databases: ['users'],
+    assignDate: "01/12",
     superAdmins: ['rasmus', 'marcus'],
-    iv: crypto.randomBytes(16),
+    iv: String(crypto.randomBytes(16).toString('base64')),
     salt: String(crypto.randomBytes(128).toString('base64'))
 }
 
@@ -87,6 +88,23 @@ if (global.compileSassOnRun) {
     })
 }
 
+global.encryptstr = (str, pword) => {
+    let key = crypto.scryptSync(pword, 'salt', 32)
+    let cipher = crypto.createCipheriv('aes-256-cbc', key, Buffer.from(global.iv, 'base64'));
+    let encrypted = cipher.update(str);
+    encrypted = Buffer.concat([encrypted, cipher.final()]);
+    return encrypted.toString('hex')
+}
+
+global.decryptstr = (str, pword) => {
+    let key = crypto.scryptSync(pword, 'salt', 32)
+    let encryptedText = Buffer.from(str, 'hex');
+    let decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(global.iv, 'base64'));
+    let decrypted = decipher.update(encryptedText);
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
+    return decrypted.toString();
+}
+
 // default indstillinger, det burde være fint :)))
 const iterations = 10000
 const keylen = 256
@@ -96,22 +114,6 @@ global.verify = (str, hash) => {
     let newHash = crypto.pbkdf2Sync(str, global.salt, iterations, keylen, digest).toString('base64')
     return hash == newHash
 }
-
-global.encryptstr = (str, key) => {
-    let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), global.iv);
-    let encrypted = cipher.update(str);
-    encrypted = Buffer.concat([encrypted, cipher.final()]);
-    return encrypted.toString('hex')
-}
-
-global.decryptstr = (str, key) => {
-    let encryptedText = Buffer.from(str, 'hex');
-    let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), global.iv);
-    let decrypted = decipher.update(encryptedText);
-    decrypted = Buffer.concat([decrypted, decipher.final()]);
-    return decrypted.toString();
-}
-
 
 global.hash = (str) => {
     const salt = global.salt
@@ -128,7 +130,6 @@ global.randomStr = (length) => {
     }
     return result
 }
-
 
 global.genCookie = (hours) => {
     let cookie = global.randomStr(256)

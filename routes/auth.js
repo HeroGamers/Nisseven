@@ -13,22 +13,31 @@ router.post('/login', (req, res) => {
 
 		let user = global.users.findOne(req.body.username)
 		let today = new Date()
-		let dd = String(today.getDate()).padStart(2, '0')
-		let mm = String(today.getMonth() + 1).padStart(2, '0')
+		let year = String(today.getFullYear())
+		let christmas = new Date(global.assignDate + '/' + year + ' 12:00:00 AM')
 
 		if (!user) throw 'bruger findes ikke'
 		if (!user.hasOwnProperty('password') || (user.hasOwnProperty('allowNewPassword') && user.allowNewPassword)) throw 'lav bruger'
 		if (!global.verify(req.body.password, user.password)) throw 'psw matcher ikke'
-		if ((dd + "/" + "mm") === "01/12") {
-			if (!user.hasOwnProperty("nisseven")) {
+		log("check date")
+		if (today > christmas) {
+			log("date is later than christmas")
+			if (user.hasOwnProperty("nisseven") && user.nisseven === null) {
+				log("user has property 'nisseven' as null")
 				let users = global.users.collection()
 				for (let i = 0; i < users.length; i++) {
-					if (!users[i].distributed && users[i].id !== user.id) {
+					log("checking new user")
+					if (!users[i].distributed && users[i].id !== user.id && users[i].hasOwnProperty("distributed")) {
+						log("user is not distributed")
 						let nisseven = users[i]
 
+						let encryptednisseven = global.encryptstr(nisseven.id, req.body.password)
+						log("got encrypted name")
 						global.users.updateOne(nisseven.id, {distributed: true})
-						let encryptednisseven = gloal.encryptstr(nisseven.id, req.body.password)
+						log("updates to distributed")
 						global.users.updateOne(user.id, {nisseven: encryptednisseven})
+						log("updates nisseven")
+						break
 					}
 				}
 			}
