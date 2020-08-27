@@ -12,7 +12,7 @@ const defaultSettings = {
     compileSassOnRun: false,
     clearOnRun: true,
     msgOnServerStart: false, // du kan eventuelt skrive beskeden her :)
-    databases: ['users'],
+    databases: ['users', 'klasser'],
     assignDate: "01/12",
     superAdmins: ['rasmus', 'marcus'],
     iv: String(crypto.randomBytes(16).toString('base64')),
@@ -88,7 +88,7 @@ if (global.compileSassOnRun) {
     })
 }
 
-global.encryptstr = (str, pword) => {
+global.encryptStr = (str, pword) => {
     let key = crypto.scryptSync(pword, 'salt', 32)
     let cipher = crypto.createCipheriv('aes-256-cbc', key, Buffer.from(global.iv, 'base64'));
     let encrypted = cipher.update(str);
@@ -96,7 +96,7 @@ global.encryptstr = (str, pword) => {
     return encrypted.toString('hex')
 }
 
-global.decryptstr = (str, pword) => {
+global.decryptStr = (str, pword) => {
     let key = crypto.scryptSync(pword, 'salt', 32)
     let encryptedText = Buffer.from(str, 'hex');
     let decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(global.iv, 'base64'));
