@@ -7,6 +7,8 @@ link(rel='stylesheet', href='/css/nisseven.css')
                 p Du har en nisseven!
         .row
             .col-md-12.d-flex.justify-content-center
-                .revealer.rounded.border.border-dark.user-select-none
-                    p.d-inline-block #{ user.nisseven }
-                    button.d-inline-block.btn.btn-success.btn-sm.mr-1.ml-2(type='button' onclick='') Dekrypter Nisseven
+                .revealer.rounded.border.border-dark.user-select-none.text-center
+                    p#nisseven.d-inline-block #{ user.nisseven }
+        .row.mt-2
+            .col-md-12.dflex.justify-content-center.text-center
+                button#decryptbutton.d-inline-block.btn.btn-success.btn-sm(type='button' onclick='showNisseven()') Dekrypter Nisseven

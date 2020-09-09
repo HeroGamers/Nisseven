@@ -39,10 +39,12 @@ if (global.useHttps) {
 
 const requestValidator = require('../routes/requestValidator')
 const authRoute = require('../routes/auth')
+const functionRoute = require('../routes/functions')
 const profileControlRoute = require('../routes/profileControl')
 
 global.app.use(requestValidator)
 global.app.use('/auth', authRoute)
+global.app.use('/api', functionRoute)
 global.app.use('/api', profileControlRoute)
 
 
