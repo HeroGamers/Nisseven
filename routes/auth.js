@@ -26,7 +26,17 @@ router.post('/login', (req, res) => {
 		if (today > christmas) {
 			if (user.hasOwnProperty('nisseven') && !user.nisseven) {
 		
-				const users = global.users.collection()
+				let users = global.users.collection()
+
+                // Randomize users array with Fisher-Yates algorithm
+                for(let i = users.length-1; i > 0; i--){
+                    const j = Math.floor(Math.random() * i)
+                    const temp = users[i]
+                    users[i] = users[j]
+                    users[j] = temp
+                }
+
+			    // Pick user
 				for (const ven of users) {
 					if (!ven.distributed && ven.id != user.id) {
 	

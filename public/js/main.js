@@ -4,10 +4,6 @@ const { log } = console
 
 
 
-
-
-
-
 // core funktioner
 
 function goFetch(route, data, opt_callback) {

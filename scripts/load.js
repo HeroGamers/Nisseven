@@ -13,7 +13,7 @@ const defaultSettings = {
     clearOnRun: true,
     msgOnServerStart: false, // du kan eventuelt skrive beskeden her :)
     databases: ['users', 'klasser'],
-    assignDate: "01/12",
+    assignDate: "12/01", // month/date
     superAdmins: ['rasmus', 'marcus'],
     iv: String(crypto.randomBytes(16).toString('base64')),
     salt: String(crypto.randomBytes(128).toString('base64'))

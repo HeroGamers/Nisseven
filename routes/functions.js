@@ -4,7 +4,7 @@ var router = express.Router()
 
 // api/x
 
-const pathsToCheck = ['/decodeString']
+const pathsToCheck = ['/decodeString', '/getNissevenDate']
 
 
 router.post('*', (req, res, next) => {
@@ -24,6 +24,17 @@ router.post('*', (req, res, next) => {
                 break
             }
             res.send({res: true, body: string})
+            break
+
+        case '/getNissevenDate':
+            try {
+                date = global.assignDate
+            }
+            catch(err) {
+                res.send({res: false, err: err})
+                break
+            }
+            res.send({res: true, body: date})
             break
     }
 })
