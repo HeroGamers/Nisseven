@@ -48,18 +48,31 @@ router.post('/login', (req, res) => {
 					not_distributed[j] = temp
                 }
 
-			    // Pick user
-				let ven = not_distributed[Math.floor(Math.random() * not_distributed.length)]
-				let encryptstr = ven.id
-
-				if (ven.hasOwnProperty('fullname')) {
-					encryptstr = ven.fullname
+				// Pick user
+				let ven = null
+				if (not_distributed.length > 2) {
+					ven = not_distributed[Math.floor(Math.random() * Math.floor(not_distributed.length))]
+				}
+				else if (not_distributed.length > 0) {
+					ven = not_distributed[0]
 				}
 
-				let encryptednisseven = global.encryptStr(encryptstr, req.body.password)
+				if (ven == null) {
+					log("ERROR: Could not find a nisseven!!!!!")
+				}
+				else {
+					// Encrypt chosen user
+					let encryptstr = ven.id
 
-				global.users.updateOne(ven.id, { distributed: true }, true)
-				global.users.updateOne(user.id, { nisseven: encryptednisseven }, true)
+					if (ven.hasOwnProperty('fullname')) {
+						encryptstr = ven.fullname
+					}
+
+					let encryptednisseven = global.encryptStr(encryptstr, req.body.password)
+
+					global.users.updateOne(ven.id, { distributed: true }, true)
+					global.users.updateOne(user.id, { nisseven: encryptednisseven }, true)
+				}
 			}
 		}
 
