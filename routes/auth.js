@@ -27,27 +27,29 @@ router.post('/login', (req, res) => {
 			if (user.hasOwnProperty('nisseven') && !user.nisseven) {
 		
 				let users = global.users.collection()
+				let not_distributed = []
+
+				for (const current_user of users) {
+					if (!current_user.distributed && current_user.id !== user.id) {
+						not_distributed.push(current_user)
+					}
+				}
 
                 // Randomize users array with Fisher-Yates algorithm
-                for(let i = users.length-1; i > 0; i--){
+                for(let i = not_distributed.length-1; i > 0; i--){
                     const j = Math.floor(Math.random() * i)
-                    const temp = users[i]
-                    users[i] = users[j]
-                    users[j] = temp
+                    const temp = not_distributed[i]
+					not_distributed[i] = not_distributed[j]
+					not_distributed[j] = temp
                 }
 
 			    // Pick user
-				for (const ven of users) {
-					if (!ven.distributed && ven.id != user.id) {
-	
-						let encryptednisseven = global.encryptStr(ven.id, req.body.password)
+				let ven = not_distributed[Math.floor(Math.random() * not_distributed.length)]
 				
-						global.users.updateOne(ven.id, { distributed: true }, true)
-						global.users.updateOne(user.id, { nisseven: encryptednisseven }, true)
-				
-						break
-					}
-				}
+				let encryptednisseven = global.encryptStr(ven.id, req.body.password)
+
+				global.users.updateOne(ven.id, { distributed: true }, true)
+				global.users.updateOne(user.id, { nisseven: encryptednisseven }, true)
 			}
 		}
 
