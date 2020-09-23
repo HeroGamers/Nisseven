@@ -22,10 +22,15 @@ router.post('/login', (req, res) => {
 		let today = new Date()
 		let year = String(today.getFullYear())
 		let christmas = new Date(global.assignDate + '/' + year + ' 12:00:00 AM')
+
 		
 		if (today > christmas) {
+			if (!user.hasOwnProperty('nisseven')) {
+				log("User has no nisseven property, assigning")
+				global.users.updateOne(user.id, { nisseven: null}, true)
+				user.nisseven = null
+			}
 			if (user.hasOwnProperty('nisseven') && !user.nisseven) {
-		
 				let users = global.users.collection()
 				let not_distributed = []
 
@@ -45,8 +50,13 @@ router.post('/login', (req, res) => {
 
 			    // Pick user
 				let ven = not_distributed[Math.floor(Math.random() * not_distributed.length)]
-				
-				let encryptednisseven = global.encryptStr(ven.id, req.body.password)
+				let encryptstr = ven.id
+
+				if (ven.hasOwnProperty('fullname')) {
+					encryptstr = ven.fullname
+				}
+
+				let encryptednisseven = global.encryptStr(encryptstr, req.body.password)
 
 				global.users.updateOne(ven.id, { distributed: true }, true)
 				global.users.updateOne(user.id, { nisseven: encryptednisseven }, true)

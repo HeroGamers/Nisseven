@@ -180,7 +180,7 @@ function loadDatabases() {
 		}
 
 		if (database == 'users')
-			for (let user of global.superAdmins) global[database].insertOne(user, { privileges: ['admin'] })
+			for (let user of global.superAdmins) global[database].insertOne(user, { fullname: (user.charAt(0).toUpperCase() + user.slice(1) + " Admin"), privileges: ['admin'] })
 	}
 }
 

@@ -63,7 +63,7 @@ function loadSettings() {
     catch (err) {
 
         if (err == 'reset') {
-            console.log('settings.json blev nulstillede...')
+            console.log('settings.json blev nulstillet...')
             unlinkSync(settingsPath)
         }
 
