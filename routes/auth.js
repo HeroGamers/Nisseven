@@ -50,9 +50,11 @@ router.post('/login', (req, res) => {
 
 				// Pick user
 				let ven = null
+				// Distribute randomly if the amount of users left is over 2
 				if (not_distributed.length > 2) {
 					ven = not_distributed[Math.floor(Math.random() * Math.floor(not_distributed.length))]
 				}
+				// If the amount of users left is under 2, we need to distribute them manually, to avoid someone being left behind
 				else if (not_distributed.length > 0) {
 					ven = not_distributed[0]
 				}
