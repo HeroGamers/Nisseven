@@ -66,6 +66,13 @@ function checkInput(input, opt_event, opt_fixedOutcome) {
 
 
 
+const capitalize = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+
+
 // lille sjov besked
 let messages = [
 	'Hvad laver du dog her?',
