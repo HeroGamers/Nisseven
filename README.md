@@ -1,8 +1,7 @@
 <h1 align="center">Project Nisseven</h1>
 
 A "Nisseven" is a Danish tradition in schools. Every Christmas season, everyone in the class, who participates in the Nisseven Program, gets assigned a random "Nisseven".  
-[Nisseven](https://github.com/HeroGamers/Nisseven) is a project all about easing the process of handling out "Nissevenner" to people, and will do so with ease, and with a stylish interface, with our focus on keeping everyones Nisseven a secret, by using a high level of security.  
-The Nisseven Project is a project made for a Computer Science project.
+[Nisseven](https://github.com/HeroGamers/Nisseven) is a project all about easing the process of handling out "Nissevenner" to people, and will do so with ease, and with a stylish interface, with our focus on keeping everyones Nisseven a secret, by using a high level of security.
 
 ---
 
@@ -13,7 +12,19 @@ The Nisseven Project is a project made for a Computer Science project.
 
 ## Using Nisseven
 Currently, Nisseven is only run locally, and has no publicly hosted version available.
-You can however host it yourself, using the steps found below!
+You can however host it yourself, using the steps found further down!
+
+## About Nisseven
+The Nisseven Project is a project made for a Computer Science project.
+
+### Presentation about Nisseven
+If you wish to hold a presentation about Nisseven, there are presentation documents which you can use:
+-  [Danish Presentation](https://raw.githubusercontent.com/HeroGamers/Nisseven/master/presentations/da_DK/Nisseven.pptx)
+
+<div align="center">
+
+[![Presentation Thumbnail](https://raw.githubusercontent.com/HeroGamers/Nisseven/master/presentations/PowerPointThumbnail.png)](https://raw.githubusercontent.com/HeroGamers/Nisseven/master/presentations/da_DK/Nisseven.pptx)
+</div>
 
 ## Running Nisseven locally
 1.  Clone the *master* branch of the Nisseven repository.
