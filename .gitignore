@@ -1,3 +1,6 @@
+# CSS, since that gets compiled from CASS
+/public/css/
+
 # Macososososos
 .DS_Store
 
