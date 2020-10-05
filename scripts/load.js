@@ -84,7 +84,17 @@ if (global.compileSassOnRun) {
     console.log('* Compiling sass to css')
 
     exec('sass ./public/sass:./public/css', (err) => {
-        console.log('* Done compiling sass')
+        if (err) {
+            if (!err.toString().includes("Undefined variable.")) {
+                console.log('* Failure compiling sass! - ' + err)
+            }
+            else {
+                console.log('* Done compiling sass')
+            }
+        }
+        else {
+            console.log('* Done compiling sass')
+        }
     })
 }
 

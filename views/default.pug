@@ -5,6 +5,8 @@ html(lang='dk')
 		title Nisseven
 
 	body
-		script(src='/js/default.js')
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js")
 		include ./partials/navbar.pug
-		include ./partials/nisseven.pug
+		div#snow
+			script(src='/js/default.js')
+			include ./partials/nisseven.pug
