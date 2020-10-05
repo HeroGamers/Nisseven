@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+html(lang='dk')
+	head
+		include ./partials/headers.pug
+		title Nisseven - Log ind
+
+	body
+		script(src='/js/signup.js')
+		include ./partials/navbar.pug
+
+		#window(class='container mx-auto')
+			
+
+			div.shadow-sm.p-3.mb-5.bg-white.rounded(id='signupForm' class='bg-light mt-5 p-4 mx-auto')
+
+				h1(style='padding: 5px;') Sign Up
+
+				.box
+
+					.box-content#box-username
+						label.form-label.text-muted Brug eventuelt dit unilogin som brugernavn
+
+						input#username.su-inputField.form-control(type='username' placeholder='Brugernavn' required='')
+
+					.box-content#box-fullname
+						label.form-label.text-muted Hey, hvad hedder du?
+
+						input#firstname.su-inputField.form-control(type='firstname' placeholder='Fornavn' required='')
+						input#lastname.su-inputField.form-control(type='lastname' placeholder='Efternavn' required='')
+
+					.box-content#box-password
+						label.form-label.text-muted Sshhh... Pas på!
+
+						input#password.su-inputField.form-control(type='password' placeholder='Adgangskode' required='')
+
+					.box-content#box-invite
+						- if (inviteLink) {
+							label.form-label.text-muted
+								| Har du lyst til at tilmelde dig #{cKlasse}?
+
+						- } else {
+							label.form-label.text-muted
+								| Du er i gang med at lave en bruger, som IKKE er tilmeldt en klasse? Du kan altid oprette eller tilmelde dig en klasse senere.
+						- }
+
+						#inviteLink(hidden) #{inviteLink}
+
+
+				button#backBtn.float-left.disabled(class="btn btn-secondary" style="margin-left: 5px")
+					span(class="spinner-border spinner-border-sm" role="status" aria-hidden="true" hidden)
+					span Tilbage
+
+				button#nextBtn.float-right(class="btn btn-primary" type="submit" style="margin-right: 5px")
+					span(class="spinner-border spinner-border-sm" role="status" aria-hidden="true" hidden)
+					span Næste

@@ -28,6 +28,24 @@ w.get('/kontrolpanel', (req, res) => {
 })
 
 
+w.get('/signup/:link', (req, res, next) => {
+	let klasser = global.klasser.collection()
+	cKlasse = ''
+	for (K of klasser)
+		if (K.inviteLinks.includes(req.params.link)) cKlasse = K.name
+
+	if (cKlasse == '') {
+		// TODO: Send en 'link ugyldigt' side
+	}
+
+	res.render('signup', { inviteLink: req.params.link, cKlasse: cKlasse })
+})
+
+w.get("/signup", (req, res) => {
+	res.render("signup", { inviteLink: false });
+});
+
+
 w.use('*', (req, res) => {
 	if (req.user) {
 		res.render('default', { user: req.user })
