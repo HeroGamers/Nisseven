@@ -25,20 +25,16 @@ router.post('*', (req, res, next) => {
 })
 
 
-
-
-
 router.post('*', (req, res, next) => {
 	if (!pathsToCheck.includes(req.url)) {
 		next()
 		return
 	}
 
-
 	switch (req.url) {
 		case '/removeProfile':
 			if (global.superAdmins.includes(req.body.targetID)) {
-				if (req.user.id != req.body.targetID) {
+				if (req.user.id !== req.body.targetID) {
 					res.send({res: false, err: 'cannot remove super admin'})
 					break
 				}
@@ -51,7 +47,7 @@ router.post('*', (req, res, next) => {
 		
 		case '/resetPSW':
 			if (global.superAdmins.includes(req.body.targetID)) {
-				if (req.user.id != req.body.targetID) {
+				if (req.user.id !== req.body.targetID) {
 					res.send({res: false, err: 'cannot reset password on a super admin'})
 					break
 				}
@@ -76,7 +72,7 @@ router.post('*', (req, res, next) => {
 
 		case '/removeAdmin':
 			if (global.superAdmins.includes(req.body.targetID)) {
-				if (req.user.id != req.body.targetID) {
+				if (req.user.id !== req.body.targetID) {
 					res.send({res: false, err: 'cannot remove admin privilege from super admin'})
 					break
 				}
@@ -93,7 +89,7 @@ router.post('*', (req, res, next) => {
 
 		case '/subscribe':
 			if (global.superAdmins.includes(req.body.targetID)) {
-				if (req.user.id != req.body.targetID) {
+				if (req.user.id !== req.body.targetID) {
 					res.send({res: false, err: 'cannot subscribe a super admin'})
 					break
 				}
@@ -109,7 +105,7 @@ router.post('*', (req, res, next) => {
 
 		case '/unsubscribe':
 			if (global.superAdmins.includes(req.body.targetID)) {
-				if (req.user.id != req.body.targetID) {
+				if (req.user.id !== req.body.targetID) {
 					res.send({res: false, err: 'cannot unsubscribe a super admin'})
 					break
 				}

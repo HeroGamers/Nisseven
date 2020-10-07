@@ -52,7 +52,7 @@ window.onload = () => {
                 toggleBtn('Tilmeld!')
                 nextBtn.querySelectorAll('span')[1].innerHTML = 'Tilmeld!'
                 if (!result) {
-                    if (data == 'user already exists!') {
+                    if (data === 'user already exists!') {
                         checkInput(document.querySelector('#username'), null, true)
                         page = 0
                         updateSlide()
@@ -74,7 +74,7 @@ window.onload = () => {
         if (page > 0) {
             nextBtn.querySelectorAll('span')[1].innerHTML = 'Næste'
             page --
-            if (page == 0)
+            if (page === 0)
                 backBtn.classList.add('disabled')
         }
 
@@ -87,7 +87,7 @@ window.onload = () => {
     })
 
     updateSlide = () => {
-        nextBtn.querySelectorAll('span')[1].innerHTML = (page == pages) ? 'Tilmeld!' : 'Næste'
+        nextBtn.querySelectorAll('span')[1].innerHTML = (page === pages) ? 'Tilmeld!' : 'Næste'
 
         firstPage.style['margin-left'] = String(Number(-280 * page) + 'px')
     }

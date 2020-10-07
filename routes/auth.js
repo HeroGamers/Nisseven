@@ -1,5 +1,4 @@
 const { log } = console
-
 var express = require('express')
 var router = express.Router()
 
@@ -90,7 +89,7 @@ router.post('/login', (req, res) => {
 		res.send({res: true})
 	}
 	catch (err) {
-		if (err == 'admin in need of psw') {
+		if (err === 'admin in need of psw') {
 			// lav en ny bruger
 			let user = global.users.findOne( req.body.username )
 
@@ -170,7 +169,6 @@ router.post('/signup', (req, res) => {
 
 		if (user) throw 'user already exists!'
 
-
 		// Så har vi tjekket en hel masse, tid til at lave en ny konto
 
 		// Find hvilken klasse inviteLinket tilhører, hvis det altså eksisterer.
@@ -188,7 +186,6 @@ router.post('/signup', (req, res) => {
 			if (!klasse)
 				throw 'invalid invite link'
 		}
-
 
 		// Hvis klassen ikke eksistere, bliver der lavet en ny.
 		if (!klasse && createNew) {
@@ -237,8 +234,6 @@ router.post('/signup', (req, res) => {
 		res.send({ 'res': false, 'err': err })
 		return
 	}
-
-	res.send('request /signup - failed')
 })
 
 
@@ -271,7 +266,7 @@ router.post('/createKlasse', (req, res) => {
 		if (!req.secureBody)
 			throw 'usikker krop'
 
-		if (req.user.klasse != false) throw 'allerede medlem af en klasse'
+		if (req.user.klasse !== false) throw 'allerede medlem af en klasse'
 
 		let participant = [req.user.id]
 
@@ -301,11 +296,11 @@ router.post('/joinWithLink', (req, res) => {
 		if (!req.secureBody)
 			throw 'usikker krop'
 
-		if (req.user.klasse != false) throw 'allerede medlem af en klasse'
+		if (req.user.klasse !== false) throw 'allerede medlem af en klasse'
 
 		let inviteLink = (req.types.includes('inviteLink')) ? req.body.inviteLink : false
 
-		if (inviteLink == undefined || inviteLink == '') throw 'missing invite link'
+		if (inviteLink === undefined || inviteLink === '') throw 'missing invite link'
 
 
 		// Find hvilken klasse inviteLinket tilhører, hvis det altså eksisterer.

@@ -1,6 +1,6 @@
 mixin showUsersFromCollection(opt_active)
 	- for (let USER of collection) {
-		- if ( (opt_active && USER.subscribed) || (opt_active == false && !USER.subscribed) || opt_active == undefined ) {
+		- if ( (opt_active && USER.subscribed) || (opt_active === false && !USER.subscribed) || opt_active === undefined ) {
 
 
 			.card.mt-2
@@ -14,14 +14,14 @@ mixin showUsersFromCollection(opt_active)
 
 						- if (!USER.hasOwnProperty('privileges') || !USER.privileges.includes('admin')) {
 							button.btn.btn-danger.btn-sm.float-right.mr-1(type='button' onclick='adminCommands("/api/makeAdmin", "'+USER.id+'")') Gør til admin
-						- } else if (USER.id != 'rasmus' && USER.id != 'marcus') {
+						- } else if (USER.id !== 'rasmus' && USER.id !== 'marcus') {
 							button.btn.btn-success.btn-sm.float-right.mr-1(type='button' onclick='adminCommands("/api/removeAdmin", "'+USER.id+'")') Fjern admin
 						- }
 
 						button.btn.btn-dark.btn-sm.float-right.mr-1(type='button' onclick='adminCommands("/api/resetPSW", "'+USER.id+'")') Nulstil adgangskode
 						
 
-						- if (USER.subscribed != false) {
+						- if (USER.subscribed !== false) {
 							button.btn.btn-dark.btn-sm.float-right.mr-1(type='button' onclick='adminCommands("/api/unsubscribe", "'+USER.id+'")') Afmeld
 						- } else {
 							button.btn.btn-success.btn-sm.float-right.mr-1(type='button' onclick='adminCommands("/api/subscribe", "'+USER.id+'")') Tilmeld

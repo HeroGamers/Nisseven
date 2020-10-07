@@ -13,7 +13,6 @@ router.post('*', (req, res, next) => {
         return
     }
 
-
     switch (req.url) {
         case '/decodeString':
             try {

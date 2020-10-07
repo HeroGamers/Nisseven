@@ -38,7 +38,7 @@ w.get('/signup/:link', (req, res, next) => {
 		}
 	}
 
-	if (cKlasse == '') {
+	if (cKlasse === '') {
 		// TODO: Send en 'link ugyldigt' side
 	}
 
@@ -65,7 +65,7 @@ w.use('*', (req, res) => {
 			inviteLink = klasse.inviteLinks
 			kName = klasse.name || 'Unavngivet'
 			try {
-				isAdmin = (klasse.admins.includes(req.user.id)) ? true : false
+				isAdmin = klasse.admins.includes(req.user.id)
 			} catch (err) {
 				isAdmin = false
 			}

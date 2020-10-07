@@ -4,7 +4,6 @@ const { writeFileSync, readFileSync, unlinkSync, readdirSync, existsSync } = req
 
 // du kan ændre de lokale databaser i config/settings.js
 
-
 function dbObject(database, path) {
 	this.collection = JSON.parse(readFileSync(path))
 	this.path = './config/collections/' + database + '.json'
@@ -13,7 +12,7 @@ function dbObject(database, path) {
 		let index = 0
 
 		for (const user of this.collection) {
-			if (user.id.toLowerCase() == id.toLowerCase()) {
+			if (user.id.toLowerCase() === id.toLowerCase()) {
 				const returableUser = (secure) ? Object.assign({}, user) : user
 
 				if (opt_index) {
@@ -62,7 +61,7 @@ function dbObject(database, path) {
 
 				if (opt_deleteAllAcrossDBs) {
 					for (let db of global.databases) {
-						if (db != database) global[db].deleteOne(id)
+						if (db !== database) global[db].deleteOne(id)
 					}
 				}
 			}
@@ -92,14 +91,14 @@ function dbObject(database, path) {
 
 			if (insertMode) {
 				for (let updateKey in updateData) {
-					if (updateKey != 'id') {
+					if (updateKey !== 'id') {
 						foundUser[updateKey] = updateData[updateKey]
 					}
 				}
 			} else {
 				for (let userKey in foundUser) {
 					for (let updateKey in updateData) {
-						if (userKey == updateKey && userKey != 'id') {
+						if (userKey === updateKey && userKey !== 'id') {
 							foundUser[updateKey] = updateData[updateKey]
 						}
 					}
@@ -179,10 +178,9 @@ function loadDatabases() {
 			loadDatabases()
 		}
 
-		if (database == 'users')
+		if (database === 'users')
 			for (let user of global.superAdmins) global[database].insertOne(user, { fullname: (user.charAt(0).toUpperCase() + user.slice(1) + " Admin"), privileges: ['admin'] })
 	}
 }
 
 loadDatabases()
-

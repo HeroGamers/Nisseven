@@ -4,7 +4,7 @@ window.onload = () => {
 
   for (let input of inputFields) {
   	input.addEventListener('keyup', (event) => {
-  		if (event.key == 'Enter') btn.click()
+  		if (event.key === 'Enter') btn.click()
   	})
   }
 
@@ -29,7 +29,7 @@ window.onload = () => {
       }
     }
 
-    if (amount == inputFields.length) {
+    if (amount === inputFields.length) {
       toggleBtn()
 
       let data = {
@@ -41,12 +41,12 @@ window.onload = () => {
         if (!result) {
           toggleBtn()
 
-          if (data == 'psw matcher ikke' || data == 'ikke med i klassen') {
+          if (data === 'psw matcher ikke' || data === 'ikke med i klassen') {
             const pswField = document.querySelector('input[type=password]')
             checkInput(pswField, null, true)
           }
 
-          if (data == 'ikke med i klassen') {
+          if (data === 'ikke med i klassen') {
             const usrField = document.querySelector('input[type=username]')
             checkInput(usrField, null, true)
           }
