@@ -58,5 +58,24 @@ function updateTime() {
         }, 1000)
     })
 }
+window.onload = () => {
 
-updateTime()
+    if (document.getElementById('renameBtn')) {
+        document.getElementById('renameBtn').addEventListener('click', () => {
+            log('click')
+            goFetch('/auth/kRename', { rename: document.getElementById('renameInput').value }, (result, data) => {
+                if (!result) {
+                    log(data)
+                } else {
+                    // Alt er godt!
+                    document.getElementById('renameInput').placeholder = document.getElementById('renameInput').value
+                    document.getElementById('renameInput').value = ''
+                    window.location.reload()
+                }
+            })
+        })
+    }
+
+
+    if (document.getElementById("time")) updateTime()
+}

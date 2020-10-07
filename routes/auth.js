@@ -144,7 +144,8 @@ router.post('/signup', (req, res) => {
 	 - fullname, mellem 7 og 55 karakterer.
 	 - inviteLink (valgfrit), hvis linket er gyldigt bliver man smidt ind i den korrekt gruppe.
 	 - selfParticipate (valgfrit), vælger om man selv vil deltage i sin nylig oprettede klasse.
-	 	... enten er man udelukkende admin, ellers er man både admin og deltager.
+		 ... enten er man udelukkende admin, ellers er man både admin og deltager.
+	 - createNew (valgfrit: true), det kan vælges hvorvidt man har lyst til at oprette en klasse.
 
 	* Output:
 	Et json objekt, der holder på to egenskaber:
@@ -163,12 +164,149 @@ router.post('/signup', (req, res) => {
 
 		let inviteLink = (req.types.includes('inviteLink')) ? req.body.inviteLink : false
 
+		let createNew = (req.types.includes('createNew')) ? req.body.createNew : true
+
 		let user = global.users.findOne(req.body.username)
 
 		if (user) throw 'user already exists!'
 
 
 		// Så har vi tjekket en hel masse, tid til at lave en ny konto
+
+		// Find hvilken klasse inviteLinket tilhører, hvis det altså eksisterer.
+		let klasser = global.klasser.collection()
+		let klasse = false
+		if (inviteLink) {
+			for (const K of klasser) {
+				if (K.inviteLinks.includes(inviteLink)) {
+					klasse = K.id
+				}
+			}
+
+			// I stedet for bare at lave en ny konto, så lader vi klienten afgøre 
+			// hvad der skal ske.
+			if (!klasse)
+				throw 'invalid invite link'
+		}
+
+
+		// Hvis klassen ikke eksistere, bliver der lavet en ny.
+		if (!klasse && createNew) {
+			let participant = (req.body.selfParticipate) ? [req.body.username] : []
+
+			klasse = String(klasser.length) + global.randomStr(5)
+
+			global.klasser.insertOne(klasse, {
+				admins: [req.body.username],
+				participants: participant,
+				inviteLinks: [global.randomStr(10)]
+			})
+		} else if (klasse)  {
+			let participants = global.klasser.findOne(klasse).participants
+
+			participants.push(req.body.username)
+
+			global.klasser.updateOne(klasse, {
+				participants: participants
+			})
+		}
+
+		let cookieObj = global.genCookie(1)
+
+		let usrObject = {
+			password: global.hash(req.body.password),
+			cookie: cookieObj.cookieToStore,
+			nisseven: null,
+			distributed: false,
+			activated: Date.now(),
+			allowNewPassword: undefined,
+
+			fullname: req.body.fullname,
+			klasse: klasse // mulighed for at deltage i flere nissevens konkurrencer
+		}
+
+		global.users.insertOne(req.body.username, usrObject)
+
+		res.cookie('nv-username', req.body.username)
+		res.cookie('nv-cookie', cookieObj.realCookie, { expire: cookieObj.cookieToStore.expireTime })
+
+		res.send({ 'res': true })
+		return
+
+	} catch (err) {
+		res.send({ 'res': false, 'err': err })
+		return
+	}
+
+	res.send('request /signup - failed')
+})
+
+
+router.post('/kRename', (req, res) => {
+	try {
+		if (!req.secureBody)
+			throw 'usikker krop'
+
+		if (!req.types.includes('rename')) throw 'need a new name'
+
+		let kID = req.user.klasse
+
+		let klasse = global.klasser.findOne(kID)
+		if (!klasse.admins.includes(req.user.id)) throw 'need admin privileges'
+
+
+		global.klasser.updateOne(kID, { 
+			'name': req.body.rename
+		}, true)
+
+		res.send({ 'res': true })
+
+	} catch (err) {
+		res.send({ 'res': false, 'err': err })
+	}
+})
+
+router.post('/createKlasse', (req, res) => {
+	try {
+		if (!req.secureBody)
+			throw 'usikker krop'
+
+		if (req.user.klasse != false) throw 'allerede medlem af en klasse'
+
+		let participant = [req.user.id]
+
+		let klasser = global.klasser.collection()
+		klasse = String(klasser.length) + global.randomStr(5)
+
+		global.klasser.insertOne(klasse, {
+			admins: [req.user.id],
+			participants: participant,
+			inviteLinks: [global.randomStr(10)]
+		})
+
+		global.users.updateOne(req.user.id, {
+			klasse: klasse
+		})
+
+		res.send({ 'res': true })
+
+	} catch (err) {
+		res.send({ 'res': false, 'err': err })
+	}
+})
+
+
+router.post('/joinWithLink', (req, res) => {
+	try {
+		if (!req.secureBody)
+			throw 'usikker krop'
+
+		if (req.user.klasse != false) throw 'allerede medlem af en klasse'
+
+		let inviteLink = (req.types.includes('inviteLink')) ? req.body.inviteLink : false
+
+		if (inviteLink == undefined || inviteLink == '') throw 'missing invite link'
+
 
 		// Find hvilken klasse inviteLinket tilhører, hvis det altså eksisterer.
 		let klasser = global.klasser.collection()
@@ -186,58 +324,25 @@ router.post('/signup', (req, res) => {
 				throw 'invalid invite link'
 		}
 
+		let participants = global.klasser.findOne(klasse).participants
 
-		// Hvis klassen ikke eksistere, bliver der lavet en ny.
-		if (!klasse) {
-			let participant = (req.body.selfParticipate) ? [req.body.username] : []
+		if (participants.includes(req.user.id)) throw 'allerede medlem af klassen'
 
-			klasse = String(klasser.length) + global.randomStr(5)
+		participants.push(req.user.id)
 
-			global.klasser.insertOne(klasse, {
-				admins: [req.body.username],
-				participants: participant,
-				inviteLinks: [global.randomStr(10)]
-			})
-		} else {
-			let participants = global.klasser.findOne(klasse).participants
+		global.klasser.updateOne(klasse, {
+			participants: participants
+		})
 
-			participants.push(req.body.username)
+		global.users.updateOne(req.user.id, {
+			klasse: klasse
+		})
 
-			global.klasser.updateOne(klasse, {
-				participants: participants
-			})
-		}
-
-
-		let usrObject = {
-			password: global.hash(req.body.password),
-			cookie: global.genCookie(1).cookieToStore,
-			nisseven: null,
-			distributed: false,
-			activated: Date.now(),
-			allowNewPassword: undefined,
-
-			fullname: req.body.fullname,
-			klasse: [klasse] // mulighed for at deltage i flere nissevens konkurrencer
-		}
-
-		global.users.insertOne(req.body.username, usrObject)
-
-		res.send({ 'res': true })
-		return
+		res.send({ 'res': true, 'info': klasse })
 
 	} catch (err) {
 		res.send({ 'res': false, 'err': err })
-		return
 	}
-
-	res.send('request /signup - failed')
-})
-
-
-
-router.get('/login', (req, res) => {
-	res.render('loginPage/login-main')
 })
 
 module.exports = router

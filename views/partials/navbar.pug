@@ -15,4 +15,7 @@ nav#navbar.navbar.navbar-expand.navbar-light.bg-light
 			if user
 				button.btn.btn-danger(type='button' onclick='document.cookie = "nv-username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; document.cookie = "nv-cookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; window.location.href="/"') Log ud
 			else
-				button.btn.btn-primary(type='button' onclick='window.location.href="/auth/login"') Log ind
+				if _showSignupBtn
+					button.btn.btn-primary(type='button' onclick='window.location.href="/signup"') Opret konto
+				else
+					button.btn.btn-primary(type='button' onclick='window.location.href="/login"') Log ind

@@ -18,7 +18,10 @@ window.onload = () => {
                 firstname: document.querySelector('#firstname').value,
                 lastname: document.querySelector('#lastname').value,
 
-                password: document.querySelector('#password').value
+                password: document.querySelector('#password').value,
+                
+                createNew: false,
+                selfParticipate: true
             }
 
             if (document.querySelector('#inviteLink').innerHTML > 0)
@@ -31,11 +34,11 @@ window.onload = () => {
                 for (const key in data) {
 
                     if (data[key].length < lengths[z]) throw z
-                    
-                    if (key != 'lastname')
-                        z++
+
+                    z++
                 }
             } catch (dest) {
+                if (dest >= 2) dest --
                 page = dest
                 updateSlide()
                 return
@@ -47,9 +50,8 @@ window.onload = () => {
 
             goFetch('/auth/signup', data, (result, data) => {
                 toggleBtn('Tilmeld!')
+                nextBtn.querySelectorAll('span')[1].innerHTML = 'Tilmeld!'
                 if (!result) {
-                    log(data)
-
                     if (data == 'user already exists!') {
                         checkInput(document.querySelector('#username'), null, true)
                         page = 0
