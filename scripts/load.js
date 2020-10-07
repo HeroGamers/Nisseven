@@ -78,7 +78,7 @@ if (global.clearOnRun) console.clear()
 
 
 
-if (global.compileSassOnRun) {
+if (global.compileSassOnRun || !existsSync("./public/css")) {
     const { exec } = require('child_process')
 
     console.log('* Compiling sass to css')
