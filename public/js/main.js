@@ -24,7 +24,7 @@ function goFetch(route, data, opt_callback) {
           let delivery_status = obj.status
           let server_response = obj.body
 
-          if (delivery_status != 200 || !server_response.res) {
+          if (delivery_status !== 200 || !server_response.res) {
             if (opt_callback) opt_callback(false, server_response.err)
             return
           }
@@ -52,7 +52,7 @@ function toggleBtn(opt_text) {
 function checkInput(input, opt_event, opt_fixedOutcome) {
   if (opt_event) opt_event.preventDefault()
 
-  if ( !opt_fixedOutcome && (input.value != '' && (input.type != 'fullname' || input.value.length > 5 ))) {
+  if ( !opt_fixedOutcome && (input.value !== '' && (input.type !== 'fullname' || input.value.length > 5 ))) {
     input.classList.remove('is-invalid')
     input.classList.add('is-valid')
     return true
@@ -84,8 +84,3 @@ let messages = [
 
 let number = Math.floor(Math.random() * messages.length)
 console.log('\x1b[33m%s\x1b[0m', messages[number]+'\nKoden ligger på: https://github.com/herogamers/nisseven')
-
-
-
-
-

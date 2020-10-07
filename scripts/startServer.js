@@ -35,8 +35,6 @@ if (global.useHttps) {
 	server = http.createServer(global.app)
 }
 
-
-
 const requestValidator = require('../routes/requestValidator')
 const authRoute = require('../routes/auth')
 const functionRoute = require('../routes/functions')

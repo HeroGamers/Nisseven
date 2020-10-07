@@ -6,13 +6,10 @@ var router = express.Router()
 // Tjekker hvorvidt req.body er sikkert.
 router.use('*', (req, res, next) => {
 	try {
-
 		let types = []
-
 
 		let iterations = 0
 		let maxIterations = 10
-
 
 		for (let key in req.body) {
 			iterations ++ // i tilfælde af at der bliver sendt et meget stor objekt

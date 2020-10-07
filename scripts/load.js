@@ -52,17 +52,17 @@ function loadSettings() {
         let iterations = 0
 
         for (let key in settings) {
-            if (defaultSettingsKey[iterations] != key) throw 'reset'
+            if (defaultSettingsKey[iterations] !== key) throw 'reset'
             global[key] = settings[key]
 
             iterations ++
         }
 
-        if (iterations != defaultSettingsLength) throw 'reset'
+        if (iterations !== defaultSettingsLength) throw 'reset'
     }
     catch (err) {
 
-        if (err == 'reset') {
+        if (err === 'reset') {
             console.log('settings.json blev nulstillet...')
             unlinkSync(settingsPath)
         }
@@ -100,19 +100,19 @@ if (global.compileSassOnRun) {
 
 global.encryptStr = (str, pword) => {
     let key = crypto.scryptSync(pword, 'salt', 32)
-    let cipher = crypto.createCipheriv('aes-256-cbc', key, Buffer.from(global.iv, 'base64'));
-    let encrypted = cipher.update(str);
-    encrypted = Buffer.concat([encrypted, cipher.final()]);
+    let cipher = crypto.createCipheriv('aes-256-cbc', key, Buffer.from(global.iv, 'base64'))
+    let encrypted = cipher.update(str)
+    encrypted = Buffer.concat([encrypted, cipher.final()])
     return encrypted.toString('hex')
 }
 
 global.decryptStr = (str, pword) => {
     let key = crypto.scryptSync(pword, 'salt', 32)
-    let encryptedText = Buffer.from(str, 'hex');
-    let decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(global.iv, 'base64'));
-    let decrypted = decipher.update(encryptedText);
-    decrypted = Buffer.concat([decrypted, decipher.final()]);
-    return decrypted.toString();
+    let encryptedText = Buffer.from(str, 'hex')
+    let decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(global.iv, 'base64'))
+    let decrypted = decipher.update(encryptedText)
+    decrypted = Buffer.concat([decrypted, decipher.final()])
+    return decrypted.toString()
 }
 
 // default indstillinger, det burde være fint :)))
@@ -122,7 +122,7 @@ const digest = 'sha512'
 
 global.verify = (str, hash) => {
     let newHash = crypto.pbkdf2Sync(str, global.salt, iterations, keylen, digest).toString('base64')
-    return hash == newHash
+    return hash === newHash
 }
 
 global.hash = (str) => {

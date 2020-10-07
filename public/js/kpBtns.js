@@ -8,7 +8,7 @@ function adminCommands(route, id, opt_psw) {
 			window.location.reload()
 		}
 		else {
-			if (data == 'prompt password') {
+			if (data === 'prompt password') {
 				let new_psw = prompt('Serveren kræver at du skriver din adgangskode')
 				if (new_psw)
 					adminCommands(route, id, new_psw)

@@ -4,7 +4,7 @@ window.onload = () => {
 
   for (let input of inputFields) {
   	input.addEventListener('keyup', (event) => {
-  		if (event.key == 'Enter') btn.click()
+  		if (event.key === 'Enter') btn.click()
   	})
   }
 
@@ -29,7 +29,7 @@ window.onload = () => {
       }
     }
 
-    if (amount == inputFields.length) {
+    if (amount === inputFields.length) {
       toggleBtn()
 
       let data = {
