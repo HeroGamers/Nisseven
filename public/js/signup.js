@@ -81,6 +81,11 @@ window.onload = () => {
         updateSlide()
     })
 
+    // så man kan trykke enter når man laver en konto, for at gå til næste side.
+    document.addEventListener("keyup", (event) => {
+        if (event.key == "Enter") document.getElementById("nextBtn").click()
+    })
+
     updateSlide = () => {
         nextBtn.querySelectorAll('span')[1].innerHTML = (page === pages) ? 'Tilmeld!' : 'Næste'
 
