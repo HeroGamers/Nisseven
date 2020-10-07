@@ -31,8 +31,12 @@ w.get('/kontrolpanel', (req, res) => {
 w.get('/signup/:link', (req, res, next) => {
 	let klasser = global.klasser.collection()
 	cKlasse = ''
-	for (K of klasser)
-		if (K.inviteLinks.includes(req.params.link)) cKlasse = K.name
+	for (K of klasser) {
+		if (K.inviteLinks.includes(req.params.link)) {
+			log(K)
+			cKlasse = K.name
+		}
+	}
 
 	if (cKlasse == '') {
 		// TODO: Send en 'link ugyldigt' side
@@ -42,14 +46,34 @@ w.get('/signup/:link', (req, res, next) => {
 })
 
 w.get("/signup", (req, res) => {
-	res.render("signup", { inviteLink: false });
-});
+	res.render("signup", { inviteLink: false })
+})
+
+w.get("/login", (req, res) => {
+  res.render("loginPage/login-main", { _showSignupBtn: true })
+})
 
 
 w.use('*', (req, res) => {
 	if (req.user) {
-		res.render('default', { user: req.user })
+		let inviteLink
+		let kName
+		let isAdmin
+
+		if (req.user.klasse) {
+			let klasse = global.klasser.findOne(String(req.user.klasse))
+			inviteLink = klasse.inviteLinks
+			kName = klasse.name || 'Unavngivet'
+			try {
+				isAdmin = (klasse.admins.includes(req.user.id)) ? true : false
+			} catch (err) {
+				isAdmin = false
+			}
+			
+		}
+
+		res.render('default', { user: req.user, _klasse: req.user.klasse, _inviteLink: inviteLink, _kName: kName, _isAdmin: isAdmin })
 	} else {
-		res.redirect('/auth/login')
+		res.redirect('/login')
 	}
 })
